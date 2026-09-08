@@ -40,11 +40,8 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioService.listarTodos());
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<UsuarioResponseDTO> atualizar(
-            @PathVariable UUID id,
-            @RequestBody @Valid UsuarioUpdateDTO dto
-    ) {
+    @PatchMapping("/{id}")
+    public ResponseEntity<UsuarioResponseDTO> atualizar(@PathVariable UUID id, @RequestBody @Valid UsuarioUpdateDTO dto) {
         return ResponseEntity.ok(usuarioService.atualizar(id, dto));
     }
 

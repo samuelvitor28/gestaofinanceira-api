@@ -58,18 +58,26 @@ public class UsuarioService {
 
     @Transactional
     public UsuarioResponseDTO atualizar(UUID id, UsuarioUpdateDTO dto) {
-        Usuario usuario = usuarioRepository.findById(id).orElseThrow(() -> new UsuarioNaoEncontradoException("Usuário não encontrado: " + id));
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new UsuarioNaoEncontradoException("Usuário não encontrado: " + id));
 
-        if (!usuario.getEmail().equals(dto.email()) && usuarioRepository.existsByEmail(dto.email())) {
-            throw new EmailJaCadastradoException(dto.email());
-        }
-        if (!usuario.getUsername().equals(dto.username()) && usuarioRepository.existsByUsername(dto.username())) {
-            throw new UsernameJaCadastradoException(dto.username());
+        if (dto.nome() != null) {
+            usuario.setNome(dto.nome());
         }
 
-        usuario.setNome(dto.nome());
-        usuario.setEmail(dto.email());
-        usuario.setUsername(dto.username());
+        if (dto.email() != null && !dto.email().equals(usuario.getEmail())) {
+            if (usuarioRepository.existsByEmail(dto.email())) {
+                throw new EmailJaCadastradoException(dto.email());
+            }
+            usuario.setEmail(dto.email());
+        }
+
+        if (dto.username() != null && !dto.username().equals(usuario.getUsername())) {
+            if (usuarioRepository.existsByUsername(dto.username())) {
+                throw new UsernameJaCadastradoException(dto.username());
+            }
+            usuario.setUsername(dto.username());
+        }
 
         return toResponseDTO(usuario);
     }
