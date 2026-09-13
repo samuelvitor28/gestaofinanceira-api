@@ -3,6 +3,9 @@ package com.samuel.gestaofinanceira_api.conta;
 import com.samuel.gestaofinanceira_api.conta.dto.ContaRequestDTO;
 import com.samuel.gestaofinanceira_api.conta.dto.ContaResponseDTO;
 import com.samuel.gestaofinanceira_api.conta.dto.ContaUpdateDTO;
+import com.samuel.gestaofinanceira_api.conta.exception.ContaNaoEncontradaException;
+import com.samuel.gestaofinanceira_api.conta.exception.NomeForaDoLimiteException;
+import com.samuel.gestaofinanceira_api.conta.exception.NomeNullException;
 import com.samuel.gestaofinanceira_api.usuario.UsuarioRepository;
 import com.samuel.gestaofinanceira_api.usuario.exception.UsuarioNaoEncontradoException;
 import org.springframework.stereotype.Service;
@@ -33,21 +36,47 @@ public class ContaService {
         return contaRepository.findAll().stream().map(this::toResponseDTO).toList();
     }
 
+    public List<ContaResponseDTO> listarContasPorUsuario(UUID idUsuario){
+        if(!usuarioRepository.existsById(idUsuario)){
+            throw new UsuarioNaoEncontradoException("Usuario não encontrado " + idUsuario);
+        }
+
+        return contaRepository.findAllByUsuarioId(idUsuario).stream().map(this::toResponseDTO).toList();
+    }
+
     public ContaResponseDTO alterarNomeConta(UUID idConta, ContaUpdateDTO dtoConta){
-        Conta contaParaAtualizar = contaRepository.findById(idConta).orElseThrow();
+        Conta contaParaAtualizar = contaRepository.findById(idConta).orElseThrow(() -> new ContaNaoEncontradaException("Conta não encontrada!" + idConta));
 
         if(dtoConta.nome() == null){
-            System.out.println("Nome vazio, não pode ser substituído!");
-            throw new RuntimeException();
+            throw new NomeNullException();
         }
 
-        if(dtoConta.nome() == contaParaAtualizar.getNome()){
-            return toResponseDTO(contaParaAtualizar);
+        if(dtoConta.nome().length() > 50){
+            throw new NomeForaDoLimiteException(dtoConta.nome());
         }
 
-        contaParaAtualizar.setNome(dtoConta.nome());
+        if(!dtoConta.nome().equals(contaParaAtualizar.getNome())){
+            contaParaAtualizar.setNome(dtoConta.nome());
+            contaRepository.save(contaParaAtualizar);
+        }
+
         return toResponseDTO(contaParaAtualizar);
+    }
 
+    public void deletarConta(UUID idConta){
+        if (!contaRepository.existsById(idConta)) {
+            throw new UsuarioNaoEncontradoException("Conta não encontrada: " + idConta);
+        }
+        contaRepository.deleteById(idConta);
+    }
+
+    public void deletarTodasContasPorUsuario(UUID idUsuario){
+        if(!usuarioRepository.existsById(idUsuario)){
+            throw new UsuarioNaoEncontradoException("Usuario não encontrado " + idUsuario);
+        }
+        for(Conta conta : contaRepository.findAllByUsuarioId(idUsuario)){
+            contaRepository.deleteById(conta.getId());
+        }
     }
 
     private ContaResponseDTO toResponseDTO(Conta conta){
