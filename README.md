@@ -6,9 +6,7 @@ O sistema tem como objetivo permitir o gerenciamento de **usuários, contas e tr
 
 ## Tecnologias
 
-* Java 25  ![Java](https://skillicons.dev/icons?i=java)
-* Spring Boot  ![Spring](https://skillicons.dev/icons?i=spring)
-* MySQL  ![MySQL](https://skillicons.dev/icons?i=mysql)
+![Java](https://skillicons.dev/icons?i=java) ![Spring](https://skillicons.dev/icons?i=spring) ![MySQL](https://skillicons.dev/icons?i=mysql)
 
 ## Arquitetura
 
