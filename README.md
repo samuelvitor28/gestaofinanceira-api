@@ -6,9 +6,9 @@ O sistema tem como objetivo permitir o gerenciamento de **usuários, contas e tr
 
 ## Tecnologias
 
-- **Java 25** ![Java](https://img.shields.io/badge/Java-25-ED8B00?style=flat-square&logo=openjdk&logoColor=white)
-- **Spring Boot** ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-6DB33F?style=flat-square&logo=springboot&logoColor=white)
-- **MySQL** ![MySQL](https://img.shields.io/badge/MySQL-9.7-4479A1?style=flat-square&logo=mysql&logoColor=white)
+- Java 25 <img src="https://cdn.simpleicons.org/openjdk" width="20"/>
+- Spring Boot <img src="https://cdn.simpleicons.org/springboot" width="20"/>
+- MySQL <img src="https://cdn.simpleicons.org/mysql" width="20"/>
 
 ## Arquitetura
 
