@@ -6,9 +6,9 @@ O sistema tem como objetivo permitir o gerenciamento de **usuários, contas e tr
 
 ## Tecnologias
 
-* Java 25  <img src="https://cdn.simpleicons.org/java/ED8B00" width="20" height="20">
-* Spring Boot  <img src="https://cdn.simpleicons.org/springboot" width="20"/>
-* MySQL  <img src="https://cdn.simpleicons.org/mysql" width="20"/>
+* Java 25  ![Java](https://skillicons.dev/icons?i=java)
+* Spring Boot  ![Spring](https://skillicons.dev/icons?i=spring)
+* MySQL  ![MySQL](https://skillicons.dev/icons?i=mysql)
 
 ## Arquitetura
 
