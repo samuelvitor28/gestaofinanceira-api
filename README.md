@@ -6,7 +6,7 @@ O sistema tem como objetivo permitir o gerenciamento de **usuários, contas e tr
 
 ## Tecnologias
 
-* Java 25  <img src="https://cdn.simpleicons.org/java" width="20"/>
+* Java 25  <img src="https://cdn.simpleicons.org/java" width="20">
 * Spring Boot  <img src="https://cdn.simpleicons.org/springboot" width="20"/>
 * MySQL  <img src="https://cdn.simpleicons.org/mysql" width="20"/>
 
