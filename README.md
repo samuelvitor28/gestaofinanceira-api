@@ -1,2 +1,23 @@
-# gestaofinanceira-api
-API do sistema de gestão Financeira
+# Gestão Financeira API
+
+API REST para um sistema de **gestão financeira pessoal**, desenvolvida em **Java e Spring Boot**.
+
+O sistema tem como objetivo permitir o gerenciamento de **usuários, contas e transações financeiras**, servindo como backend para a aplicação web.
+
+## Tecnologias
+
+* Java 25 ![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
+* Spring Boot ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white)
+* MySQL ![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
+
+## Arquitetura
+
+O projeto utiliza uma arquitetura de **monólito modular**, com os principais módulos organizados por domínio:
+
+* Usuário
+* Conta
+* Transação
+
+## Objetivo
+
+Projeto desenvolvido com foco em **prática e aprimoramento de desenvolvimento backend**, aplicando conceitos de APIs REST, banco de dados, autenticação, arquitetura de software e boas práticas em Java.
