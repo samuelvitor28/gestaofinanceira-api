@@ -10,9 +10,9 @@ import java.util.UUID;
 
 public interface TransacaoRepository extends JpaRepository<Transacao, UUID> {
     List<Transacao> findAllByContaId(UUID contaId);
-    List<Transacao> findAllByValorGreaterThan(double valor);
-    List<Transacao> findAllByValorLessThan(double valor);
-    List<Transacao> findAllByTipo(ETipoTransacao tipo);
-    List<Transacao> findAllByCategoria(ECategoriaTransacao categoria);
-    List<Transacao> findAllByDataBetween(LocalDate dataInicio, LocalDate dataFinal);
+    List<Transacao> findAllByContaUsuarioIdAndValorGreaterThan(UUID idUsuario, double valor);
+    List<Transacao> findAllByContaUsuarioIdAndValorLessThan(UUID idUsuario, double valor);
+    List<Transacao> findAllByContaUsuarioIdAndTipo(UUID idUsuario, ETipoTransacao tipo);
+    List<Transacao> findAllByContaUsuarioIdAndCategoria(UUID idUsuario, ECategoriaTransacao categoria);
+    List<Transacao> findAllByContaUsuarioIdAndDataBetween(UUID idUsuario, LocalDate dataInicio, LocalDate dataFinal);
 }

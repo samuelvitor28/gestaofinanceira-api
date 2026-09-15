@@ -4,6 +4,9 @@ import com.samuel.gestaofinanceira_api.conta.ContaRepository;
 import com.samuel.gestaofinanceira_api.conta.exception.ContaNaoEncontradaException;
 import com.samuel.gestaofinanceira_api.transacao.dto.TransacaoRequestDTO;
 import com.samuel.gestaofinanceira_api.transacao.dto.TransacaoResponseDTO;
+import com.samuel.gestaofinanceira_api.transacao.enums.ETipoTransacao;
+import com.samuel.gestaofinanceira_api.usuario.UsuarioRepository;
+import com.samuel.gestaofinanceira_api.usuario.exception.UsuarioNaoEncontradoException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,10 +16,12 @@ import java.util.UUID;
 public class TransacaoService   {
     private final TransacaoRepository transacaoRepository;
     private final ContaRepository contaRepository;
+    private final UsuarioRepository usuarioRepository;
 
-    public TransacaoService(TransacaoRepository transacaoRepository, ContaRepository contaRepository){
+    public TransacaoService(TransacaoRepository transacaoRepository, ContaRepository contaRepository, UsuarioRepository usuarioRepository){
         this.transacaoRepository = transacaoRepository;
         this.contaRepository = contaRepository;
+        this.usuarioRepository = usuarioRepository;
     }
 
     public TransacaoResponseDTO criarNovaTransacao (TransacaoRequestDTO dtoTransacao){
@@ -42,12 +47,35 @@ public class TransacaoService   {
         return transacaoRepository.findAllByContaId(idConta).stream().map(this::toResponseDto).toList();
     }
 
-    public List<TransacaoResponseDTO> listarTodasTransacoesPorValorMaiorQue(double valor){
+    public List<TransacaoResponseDTO> listarTodasTransacoesPorValorMaiorQue(UUID usuarioId, double valor){
+        if(!usuarioRepository.existsById(usuarioId)){
+            throw new UsuarioNaoEncontradoException("Usuário não encontrado: " + usuarioId);
+        }
+
         if(valor < 0){
             throw new RuntimeException("O valor não pode ser negativo!");
         }
 
-        return transacaoRepository.findAllByValorGreaterThan(valor).stream().map(this::toResponseDto).toList();
+        return transacaoRepository.findAllByContaUsuarioIdAndValorGreaterThan(usuarioId, valor).stream().map(this::toResponseDto).toList();
+    }
+
+    public List<TransacaoResponseDTO> listarTodasTransacoesPorValorMenorQue(UUID usuarioId, double valor){
+        if(!usuarioRepository.existsById(usuarioId)){
+            throw new UsuarioNaoEncontradoException("Usuário não encontrado: " + usuarioId);
+        }
+
+        if(valor < 0){
+            throw new RuntimeException("O valor não pode ser negativo!");
+        }
+
+        return transacaoRepository.findAllByContaUsuarioIdAndValorLessThan(usuarioId, valor).stream().map(this::toResponseDto).toList();
+    }
+
+    public List<TransacaoResponseDTO> listarTodasTransacoesPorTipo(UUID usuarioId, ETipoTransacao tipo){
+        if(!usuarioRepository.existsById(usuarioId)){
+            throw new UsuarioNaoEncontradoException("Usuário não encontrado: " + usuarioId);
+        }
+        return transacaoRepository.findAllByContaUsuarioIdAndTipo(usuarioId, tipo).stream().map(this::toResponseDto).toList();
     }
 
     private TransacaoResponseDTO toResponseDto(Transacao transacao){
