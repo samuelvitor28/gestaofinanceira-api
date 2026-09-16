@@ -7,6 +7,7 @@ import com.samuel.gestaofinanceira_api.transacao.dto.TransacaoResponseDTO;
 import com.samuel.gestaofinanceira_api.transacao.dto.TransacaoUpdateDTO;
 import com.samuel.gestaofinanceira_api.transacao.enums.ECategoriaTransacao;
 import com.samuel.gestaofinanceira_api.transacao.enums.ETipoTransacao;
+import com.samuel.gestaofinanceira_api.transacao.exception.TransacaoNaoEncontradaException;
 import com.samuel.gestaofinanceira_api.usuario.UsuarioRepository;
 import com.samuel.gestaofinanceira_api.usuario.exception.UsuarioNaoEncontradoException;
 import org.springframework.stereotype.Service;
@@ -96,7 +97,7 @@ public class TransacaoService   {
     }
 
     public TransacaoResponseDTO alterarTransacao(UUID idTransacao, TransacaoUpdateDTO dtoTransacao){
-        Transacao transacaoParaAtualizar = transacaoRepository.findById(idTransacao).orElseThrow(() -> new RuntimeException("Transação não encontrada: " + idTransacao));
+        Transacao transacaoParaAtualizar = transacaoRepository.findById(idTransacao).orElseThrow(() -> new TransacaoNaoEncontradaException("Transação não encontrada: " + idTransacao));
         if(dtoTransacao.descricao()!= null && !dtoTransacao.descricao().equals(transacaoParaAtualizar.getDescricao())){
             transacaoParaAtualizar.setDescricao(dtoTransacao.descricao());
         }
