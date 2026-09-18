@@ -8,6 +8,7 @@ import com.samuel.gestaofinanceira_api.transacao.dto.TransacaoUpdateDTO;
 import com.samuel.gestaofinanceira_api.transacao.enums.ECategoriaTransacao;
 import com.samuel.gestaofinanceira_api.transacao.enums.ETipoTransacao;
 import com.samuel.gestaofinanceira_api.transacao.exception.TransacaoNaoEncontradaException;
+import com.samuel.gestaofinanceira_api.transacao.exception.ValorInvalidoException;
 import com.samuel.gestaofinanceira_api.usuario.UsuarioRepository;
 import com.samuel.gestaofinanceira_api.usuario.exception.UsuarioNaoEncontradoException;
 import org.springframework.stereotype.Service;
@@ -69,7 +70,7 @@ public class TransacaoService   {
         }
 
         if(valor < 0){
-            throw new RuntimeException("O valor não pode ser negativo!");
+            throw new ValorInvalidoException("O valor não pode ser negativo!");
         }
 
         return transacaoRepository.findAllByContaUsuarioIdAndValorLessThan(usuarioId, valor).stream().map(this::toResponseDto).toList();
@@ -128,7 +129,7 @@ public class TransacaoService   {
 
     public void deletarTransacao (UUID idTransacao){
         if(!transacaoRepository.existsById(idTransacao)){
-            throw new RuntimeException("Transação não encontrada!" + idTransacao);
+            throw new TransacaoNaoEncontradaException("Transação não encontrada!" + idTransacao);
         }
         transacaoRepository.deleteById(idTransacao);
     }
