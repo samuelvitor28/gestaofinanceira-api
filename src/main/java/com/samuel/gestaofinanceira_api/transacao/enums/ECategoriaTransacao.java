@@ -10,5 +10,6 @@ public enum ECategoriaTransacao {
     COMPRAS,
     SERVICOS,
     INVESTIMENTOS,
+    SALARIO,
     OUTROS
 }
